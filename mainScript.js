@@ -274,8 +274,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const playerContainers = document.querySelectorAll(".akim-player-container");
 
     playerContainers.forEach((player, index) => {
-        // Получаем путь к треку
-        const audioSrc = player.getAttribute("audio") || `https://Stafexy.github.io/akimPlayer/audio/track${index + 1}.mp3`;
+        // Получаем путь к треку из атрибута audio
+        const audioSrc = player.getAttribute("audio");
+        if (!audioSrc) {
+            console.error(`Аудиофайл не указан для контейнера с индексом ${index}`);
+            return;
+        }
+
+        // Получаем значение перемотки из атрибута jump (по умолчанию 10 секунд)
+        const jumpTime = parseInt(player.getAttribute("jump")) || 10;
 
         // Создаём элемент <audio> и добавляем его в контейнер
         const audio = document.createElement("audio");
@@ -353,6 +360,56 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const newTime = (clickX / barWidth) * duration;
             audio.currentTime = newTime;
+        });
+
+        // Обработчик на кнопку перемотки назад
+        prevBtn.addEventListener("click", () => {
+            audio.currentTime = Math.max(0, audio.currentTime - jumpTime);
+        });
+
+        // Обработчик на кнопку перемотки вперёд
+        nextBtn.addEventListener("click", () => {
+            audio.currentTime = Math.min(audio.duration, audio.currentTime + jumpTime);
+        });
+
+        // Обновление прогресс-бара
+        let progressInterval;
+
+        function startProgressUpdate() {
+            progressInterval = setInterval(() => {
+                const duration = audio.duration || 0;
+                const currentTimeValue = audio.currentTime || 0;
+                const progressPercent = (currentTimeValue / duration) * 100;
+                progress.style.width = `${progressPercent}%`;
+                updateTimeDisplay(currentTimeValue, duration);
+            }, 50);
+        }
+
+        function stopProgressUpdate() {
+            clearInterval(progressInterval);
+        }
+
+        // Обновление отображения времени
+        function updateTimeDisplay(current, total) {
+            const currentTime = player.querySelector(".currentTime");
+            const totalTime = player.querySelector(".totalTime");
+
+            if (!currentTime || !totalTime) return;
+
+            currentTime.textContent = formatTime(current);
+            totalTime.textContent = formatTime(total);
+        }
+
+        // Форматирование времени в формате MM:SS
+        function formatTime(time) {
+            const minutes = Math.floor(time / 60);
+            const seconds = Math.floor(time % 60);
+            return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+        }
+
+        // Устанавливаем общую длительность трека при загрузке метаданных
+        audio.addEventListener("loadedmetadata", () => {
+            updateTimeDisplay(audio.currentTime, audio.duration);
         });
     });
 });
