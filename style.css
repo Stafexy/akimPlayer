@@ -1,0 +1,105 @@
+:root {
+	--sizeIcon: 26px;	/* Размер иконок */
+	--blockGap: 10px;	/* Отступы между элементами */
+	--hContBar: 8px;	/* Высота контейнера полосы прогресса и звука */
+	--hLevlBar: 4px;	/* Высота полосы прогресса и звука */
+
+	--colorPlr: #f5f5f5;	/* Цвет плеера - фон */
+	--colorBar: #ffffff;	/* Цвет полосы прогресса */
+	--colorCnt: #FF834Dff;	/* Цвет бренда основной - заливка */
+	--coHovCnt: #FF834D66;	/* Цвет бренда при наведении - тень */
+
+	--animaSet: all 0.3s ease-in-out;
+}
+
+/*	Просто блок для занятия места */
+.block {
+	display: block;
+	width: 100%;
+	height: 100px;
+}	
+
+/*	Контейнер для плеера */
+.akim-player-container {
+	width: 100%;
+	font-size: 12px;
+}
+
+/* Плеер */
+.akim {
+	padding: 10px 20px;
+	background: var(--colorPlr);
+	border-radius: 50px;
+	margin: 20px;
+	position: relative;
+}
+
+/*	Флекс-контейнер */
+.myFlex {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: nowrap;
+	vertical-align: middle;
+	gap: var(--blockGap);
+	width: auto;
+	height: 100%;
+}
+
+/*	Настройки для иконок */
+.akim svg {width: var(--sizeIcon);height: var(--sizeIcon);}
+.akim svg path {fill: var(--colorCnt);}
+.akim svg path.vol0ff {fill: var(--colorBar);}
+.akim svg path.volOff {stroke: var(--colorCnt);}
+
+/*	Контейнер для прогресса */
+.progress-container {
+	width: 100%;
+	height: auto;
+}
+
+/*	Контейнер для времени */
+.timeDisplay {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+
+/*	Настройки полос прогресса и звука */
+.progressBar, .volumeBar {
+	height: var(--hContBar);
+	background: var(--colorBar);
+	border-radius: 100px;
+	display: flex;
+	align-items: center;
+	transition: width 0.1s linear;
+}
+
+/*	Настройки регуляторов прогресса и звука, времени и скорости воспроизведения */
+.progressBar {width: 100%;}
+.volumeBar {width: 100px;}
+.progress, .volume {
+	height: var(--hLevlBar);
+	background: var(--colorCnt);
+	border-radius: 100px;
+}
+.progress-container, .timeDisplay, .volume-container {gap: 4px;}
+.timeDisplay, .speed-container {
+	padding: 5px;
+	border-radius: 20px;
+}
+
+/*	Настройки кнопок */
+.akimBtn {cursor: pointer; box-shadow: 0px 0px 0px var(--colorCnt); transition: var(--animaSet);}
+.akimBtn:hover {box-shadow: 0px 0px 10px var(--coHovCnt);}
+.speedBtn {pointer-events: none;}
+.cBtn {padding: 3px; transition: var(--animaSet);}
+.cBtn:hover {padding: 2px;}
+.circle {
+	border-radius: 20px;
+	width: var(--sizeIcon);
+	height: var(--sizeIcon);
+}
+
