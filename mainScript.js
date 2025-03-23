@@ -29,11 +29,6 @@ document.addEventListener("DOMContentLoaded", () => {
 		`;
 		container.appendChild(audioPlayer);	// Добавляем созданный блок внутрь текущего контейнера
 	});
-
-	// Динамически подключаем скрипт control.js
-	const controlScript = document.createElement("script");
-	controlScript.src = "control.js";
-	document.body.appendChild(controlScript);
 });
 
 //	Блок управления плеером
