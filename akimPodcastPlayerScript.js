@@ -16,8 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
 	<div class="playPauseBtn akimBtn circle akimHover">
 		<svg class="playBtn cBtn" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M50 30L10 55V5L50 30Z"/></svg>
 		<svg class="pausBtn cBtn" style="display:none" viewBox="0 0 70 60" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 5H25V55H10V5Z"/><path d="M35 5H50V55H35V5Z"/></svg></div>
-	<div class="prevBtn akimBtn circle"><svg class="cBtn" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 30L30 55V43L19.5 30L30 17V5L10 30Z"/><path d="M30 30L50 55V43L39.5 30L50 17V5L30 30Z"/></svg></div>
-	<div class="nextBtn akimBtn circle"><svg class="cBtn" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M50 30L30 55V43L40.5 30L30 17V5L50 30Z"/><path d="M30 30L10 55V43L20.5 30L10 17V5L30 30Z"/></svg></div>
+	<div class="prevBtn akimBtn circle"><svg class="cBtn" viewBox="7 5 60 60" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 30L30 55V43L19.5 30L30 17V5L10 30Z"/><path d="M30 30L50 55V43L39.5 30L50 17V5L30 30Z"/></svg></div>
+	<div class="nextBtn akimBtn circle"><svg class="cBtn" viewBox="2 5 60 60" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M50 30L30 55V43L40.5 30L30 17V5L50 30Z"/><path d="M30 30L10 55V43L20.5 30L10 17V5L30 30Z"/></svg></div>
 </div>
 <div class="progress-container myFlex">
 	<div class="progressBar akimBtn"><div class="progress" style="width: 0%;"></div></div>

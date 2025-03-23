@@ -95,7 +95,7 @@
 .akimBtn {cursor: pointer; box-shadow: 0px 0px 0px var(--colorCnt); transition: var(--animaSet);}
 .akimBtn:hover {box-shadow: 0px 0px 10px var(--coHovCnt);}
 .speedBtn {pointer-events: none;}
-.cBtn {padding: 3px; transition: var(--animaSet);}
+.cBtn {transition: var(--animaSet);}
 .cBtn:hover {padding: 2px;}
 .circle {
 	border-radius: 20px;
