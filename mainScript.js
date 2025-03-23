@@ -65,6 +65,11 @@ document.addEventListener("DOMContentLoaded", () => {
 		speedContainer = player.querySelector(".speed-container"), // Контейнер скорости
 		speedBtn = speedContainer.querySelector(".speedBtn"); // Кнопка скорости
 
+	if (!playPauseBtn || !progressBar || !volumeBar) {
+		console.error("Не удалось найти элементы управления плеером.");
+		return;
+	}
+
 	// Флаг для переключения между прошедшим и оставшимся временем
 	let showRemainingTime = false;
 
@@ -262,4 +267,92 @@ document.addEventListener("DOMContentLoaded", () => {
 				break;
 		}
 	});
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    // Находим все контейнеры плееров
+    const playerContainers = document.querySelectorAll(".akim-player-container");
+
+    playerContainers.forEach((player, index) => {
+        // Получаем путь к треку
+        const audioSrc = player.getAttribute("audio") || `https://Stafexy.github.io/akimPlayer/audio/track${index + 1}.mp3`;
+
+        // Создаём элемент <audio> и добавляем его в контейнер
+        const audio = document.createElement("audio");
+        audio.src = audioSrc; // Устанавливаем путь к треку
+        audio.className = "tracks"; // Добавляем класс для аудио
+        player.appendChild(audio); // Вставляем элемент <audio> в контейнер
+
+        // Находим элементы управления
+        const playPauseBtn = player.querySelector(".playPauseBtn"),
+            playIcon = playPauseBtn?.querySelector(".playBtn"),
+            pauseIcon = playPauseBtn?.querySelector(".pausBtn"),
+            prevBtn = player.querySelector(".prevBtn"),
+            nextBtn = player.querySelector(".nextBtn"),
+            progressBar = player.querySelector(".progressBar"),
+            progress = player.querySelector(".progress"),
+            volumeBtn = player.querySelector(".volumeBtn"),
+            vol1Icon = volumeBtn?.querySelector(".vol1"),
+            vol0Icon = volumeBtn?.querySelector(".vol0"),
+            volumeBar = player.querySelector(".volumeBar"),
+            volumeLevel = volumeBar?.querySelector(".volume");
+
+        if (!playPauseBtn || !progressBar || !volumeBar) {
+            console.error("Не удалось найти элементы управления плеером.");
+            return;
+        }
+
+        // Функция воспроизведения аудио
+        function playSong() {
+            player.classList.add("playing");
+            playIcon.style.display = "none";
+            pauseIcon.style.display = "block";
+            audio.play();
+        }
+
+        // Функция паузы
+        function pauseSong() {
+            player.classList.remove("playing");
+            playIcon.style.display = "block";
+            pauseIcon.style.display = "none";
+            audio.pause();
+        }
+
+        // Обработчик на кнопку play/pause
+        playPauseBtn.addEventListener("click", () => {
+            if (player.classList.contains("playing")) {
+                pauseSong();
+            } else {
+                playSong();
+            }
+        });
+
+        // Обработчик клика на регулятор громкости
+        volumeBar.addEventListener("click", (e) => {
+            const barWidth = volumeBar.offsetWidth;
+            const clickX = e.offsetX;
+            const volumePercent = Math.min(Math.max((clickX / barWidth), 0), 1);
+
+            audio.volume = volumePercent;
+            volumeLevel.style.width = `${volumePercent * 100}%`;
+
+            if (volumePercent === 0) {
+                vol1Icon.style.display = "none";
+                vol0Icon.style.display = "block";
+            } else {
+                vol1Icon.style.display = "block";
+                vol0Icon.style.display = "none";
+            }
+        });
+
+        // Обработчик клика на прогресс-бар
+        progressBar.addEventListener("click", (e) => {
+            const barWidth = progressBar.offsetWidth;
+            const clickX = e.offsetX;
+            const duration = audio.duration;
+
+            const newTime = (clickX / barWidth) * duration;
+            audio.currentTime = newTime;
+        });
+    });
 });
