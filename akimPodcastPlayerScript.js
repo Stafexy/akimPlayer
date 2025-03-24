@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const codeVersion = "1.0.10"; // Укажите текущую версию кода
+    const codeVersion = "1.0.2"; // Обновлённая версия кода
     console.log(`Podcast Player Script Version: ${codeVersion}`);
 
     const playerContainers = document.querySelectorAll(".akim-player-container");
@@ -47,8 +47,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     </svg>
                     <svg class="vol0 cBtn" style="display:none" viewBox="5 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path class="vol0ff" d="M27.7778 19.2857H10V40.7143H27.7778L50 55V5L27.7778 19.2857Z"/>
-                        <path class="volOff" d="M15 5L50 55" stroke-width="5"/>
-                        <path class="volOff" d="M50 5L15 55" stroke-width="5"/>
+                        <path class="volOff" d="M15 5L55 55" stroke-width="5"/>
+                        <path class="volOff" d="M55 5L15 55" stroke-width="5"/>
                     </svg>
                 </div>
                 <div class="volumeBar akimBtn">
