@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <svg class="playBtn cBtn" viewBox="-5 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M50 30L10 55V5L50 30Z"/>
                     </svg>
-                    <svg class="pausBtn cBtn" style="display:none" viewBox="0 0 70 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="pausBtn cBtn" style="display:none" viewBox="-5 0 70 60" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M10 5H25V55H10V5Z"/>
                         <path d="M35 5H50V55H35V5Z"/>
                     </svg>
@@ -89,19 +89,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
         let showRemainingTime = false;
 
-		function playSong() {
-			player.classList.add("playing");
-			playIcon.style.display = "none";
-			pauseIcon.style.display = "block";
-			audio.play();
-		}
-		
-		function pauseSong() {
-			player.classList.remove("playing");
-			playIcon.style.display = "block";
-			pauseIcon.style.display = "none";
-			audio.pause();
-		}
+        function playSong() {
+            player.classList.add("playing");
+            playIcon.style.display = "none";
+            pauseIcon.style.display = "block";
+            audio.play();
+        }
+
+        function pauseSong() {
+            player.classList.remove("playing");
+            playIcon.style.display = "block";
+            pauseIcon.style.display = "none";
+            audio.pause();
+        }
 
         function updateTimeDisplay() {
             const duration = audio.duration || 0;
@@ -112,6 +112,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 currentTime.textContent = formatTime(current);
             }
             totalTime.textContent = formatTime(duration);
+
+            // Обновление прогресс-бара
+            const progressPercent = (current / duration) * 100;
+            progress.style.width = `${progressPercent}%`;
         }
 
         function formatTime(time) {
@@ -120,15 +124,13 @@ document.addEventListener("DOMContentLoaded", () => {
             return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
         }
 
-		playPauseBtn.addEventListener("click", () => {
-			if (player.classList.contains("playing")) {
-				// Если плеер воспроизводит, ставим на паузу
-				pauseSong();
-			} else {
-				// Если плеер на паузе, запускаем воспроизведение
-				playSong();
-			}
-		});
+        playPauseBtn.addEventListener("click", () => {
+            if (player.classList.contains("playing")) {
+                pauseSong();
+            } else {
+                playSong();
+            }
+        });
 
         progressBar.addEventListener("click", (e) => {
             const barWidth = progressBar.offsetWidth;
