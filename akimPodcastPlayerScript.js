@@ -1,4 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const codeVersion = "1.0.10"; // Укажите текущую версию кода
+    console.log(`Podcast Player Script Version: ${codeVersion}`);
+
     const playerContainers = document.querySelectorAll(".akim-player-container");
 
     function createAudioPlayerHTML() {
@@ -77,6 +80,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const playPauseBtn = player.querySelector(".playPauseBtn"),
             playIcon = playPauseBtn?.querySelector(".playBtn"),
             pauseIcon = playPauseBtn?.querySelector(".pausBtn"),
+            prevBtn = player.querySelector(".prevBtn"),
+            nextBtn = player.querySelector(".nextBtn"),
             progressBar = player.querySelector(".progressBar"),
             progress = player.querySelector(".progress"),
             volumeBar = player.querySelector(".volumeBar"),
@@ -132,6 +137,14 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
+        prevBtn.addEventListener("click", () => {
+            audio.currentTime = Math.max(0, audio.currentTime - jumpTime);
+        });
+
+        nextBtn.addEventListener("click", () => {
+            audio.currentTime = Math.min(audio.duration, audio.currentTime + jumpTime);
+        });
+
         progressBar.addEventListener("click", (e) => {
             const barWidth = progressBar.offsetWidth;
             const clickX = e.offsetX;
@@ -158,43 +171,33 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        audio.addEventListener("timeupdate", updateTimeDisplay);
-
-        document.addEventListener("keydown", (e) => {
-            switch (e.key) {
-                case " ":
-                    e.preventDefault();
-                    if (player.classList.contains("playing")) {
-                        pauseSong();
-                    } else {
-                        playSong();
-                    }
-                    break;
-                case "ArrowLeft":
-                    audio.currentTime = Math.max(0, audio.currentTime - jumpTime);
-                    break;
-                case "ArrowRight":
-                    audio.currentTime = Math.min(audio.duration, audio.currentTime + jumpTime);
-                    break;
-                case "+":
-                    audio.volume = Math.min(1, audio.volume + 0.1);
-                    volumeLevel.style.width = `${audio.volume * 100}%`;
-                    break;
-                case "-":
-                    audio.volume = Math.max(0, audio.volume - 0.1);
-                    volumeLevel.style.width = `${audio.volume * 100}%`;
-                    break;
-                case "/":
-                    showRemainingTime = !showRemainingTime;
-                    updateTimeDisplay();
-                    break;
-                case "*":
-                    const currentSpeed = parseFloat(speedBtn.textContent);
-                    const newSpeed = currentSpeed >= 2 ? 0.5 : currentSpeed + 0.5;
-                    speedBtn.textContent = newSpeed.toFixed(2);
-                    audio.playbackRate = newSpeed;
-                    break;
-            }
+        // Переключение режима отображения времени по клику
+        currentTime.addEventListener("click", () => {
+            showRemainingTime = !showRemainingTime;
+            updateTimeDisplay();
         });
+
+        // Переключение скорости воспроизведения по клику
+        speedBtn.addEventListener("click", () => {
+            const currentSpeed = parseFloat(speedBtn.textContent);
+            const newSpeed = currentSpeed >= 2 ? 0.5 : currentSpeed + 0.5;
+            speedBtn.textContent = newSpeed.toFixed(2);
+            audio.playbackRate = newSpeed;
+        });
+
+        // Отключение/включение звука по клику
+        vol1Icon.addEventListener("click", () => {
+            audio.muted = true;
+            vol1Icon.style.display = "none";
+            vol0Icon.style.display = "block";
+        });
+
+        vol0Icon.addEventListener("click", () => {
+            audio.muted = false;
+            vol1Icon.style.display = "block";
+            vol0Icon.style.display = "none";
+        });
+
+        audio.addEventListener("timeupdate", updateTimeDisplay);
     });
 });
