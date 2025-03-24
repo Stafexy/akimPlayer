@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const codeVersion = "1.0.27"; // Обновлённая версия кода
+    const codeVersion = "1.0.28"; // Обновлённая версия кода
     console.log(`Podcast Player Script Version: ${codeVersion}`);
 
     const playerContainers = document.querySelectorAll(".akim-player-container");
@@ -183,7 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Переключение скорости воспроизведения по клику на speed-container
         speedContainer.addEventListener("click", () => {
             const currentSpeed = parseFloat(speedBtn.textContent);
-            const newSpeed = currentSpeed >= 2 ? 0.5 : currentSpeed + 0.5;
+            const newSpeed = currentSpeed >= 2 ? 1 : currentSpeed + 0.25;
             speedBtn.textContent = newSpeed.toFixed(2);
             audio.playbackRate = newSpeed;
         });
