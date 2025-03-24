@@ -101,5 +101,6 @@
 	border-radius: 20px;
 	width: var(--sizeIcon);
 	height: var(--sizeIcon);
+	padding: 2px;
 }
 
