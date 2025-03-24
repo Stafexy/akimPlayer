@@ -92,23 +92,19 @@ document.addEventListener("DOMContentLoaded", () => {
 	// Функция воспроизведения аудио
 	function playSong() {
 		player.classList.add("playing"); // Добавляем класс для визуального состояния
-		if (playIcon && pauseIcon) {
-			playIcon.style.display = "none"; // Прячем иконку Play
-			pauseIcon.style.display = "block"; // Показываем иконку Pause
-		}
+		playIcon.style.display = "none"; // Прячем иконку Play
+		pauseIcon.style.display = "block"; // Показываем иконку Pause
 		audio.play(); // Запускаем воспроизведение
 		startProgressUpdate(); // Запускаем обновление прогресс-бара
+	}
+
 	// Функция паузы
 	function pauseSong() {
 		player.classList.remove("playing"); // Убираем класс состояния
 		playIcon.style.display = "block"; // Показываем иконку Play
-		pauseIcon.style.display = "none"; // Прячем иконку Pauseтояния
+		pauseIcon.style.display = "none"; // Прячем иконку Pause
 		audio.pause(); // Ставим трек на паузу
 		stopProgressUpdate(); // Останавливаем обновление прогресс-бара
-	}	pauseIcon.style.display = "none"; // Прячем иконку Pause
-		}
-	// Обработчик на кнопку play/pauseпаузу
-	playPauseBtn.addEventListener("click", () => {ение прогресс-бара
 	}
 
 	// Обработчик на кнопку play/pause
@@ -279,52 +275,150 @@ document.addEventListener("DOMContentLoaded", () => {
 				updateTimeDisplay(audio.currentTime, audio.duration);
 				break;
 		}
-	});.querySelectorAll(".akim-player-container");
+	});
 });
-    playerContainers.forEach((player, index) => {
-document.addEventListener("DOMContentLoaded", () => {io");
+
+document.addEventListener("DOMContentLoaded", () => {
     // Находим все контейнеры плееров
-            console.error(`Аудиофайл не указан для контейнера с индексом ${index}`);(".akim-player-container");
+    const playerContainers = document.querySelectorAll(".akim-player-container");
+
+    playerContainers.forEach((player, index) => {
+        // Получаем путь к треку из атрибута audio
+        const audioSrc = player.getAttribute("audio");
+        if (!audioSrc) {
+            console.error(`Аудиофайл не указан для контейнера с индексом ${index}`);
             return;
         }
- путь к треку из атрибута audio
-        const audio = document.createElement("audio");onst audioSrc = player.getAttribute("audio");
-        audio.src = audioSrc;        if (!audioSrc) {
-        audio.className = "tracks";}`);
-        player.appendChild(audio);
-        }
-        const playPauseBtn = player.querySelector(".playPauseBtn"),
-            playIcon = playPauseBtn?.querySelector(".playBtn"),p (по умолчанию 10 секунд)
-            pauseIcon = playPauseBtn?.querySelector(".pausBtn");")) || 10;
 
-        if (!playPauseBtn || !playIcon || !pauseIcon) {
-            console.error("Не удалось найти элементы управления Play/Pause.");        const audio = document.createElement("audio");
-            return;авливаем путь к треку
+        // Получаем значение перемотки из атрибута jump (по умолчанию 10 секунд)
+        const jumpTime = parseInt(player.getAttribute("jump")) || 10;
+
+        // Создаём элемент <audio> и добавляем его в контейнер
+        const audio = document.createElement("audio");
+        audio.src = audioSrc; // Устанавливаем путь к треку
+        audio.className = "tracks"; // Добавляем класс для аудио
+        player.appendChild(audio); // Вставляем элемент <audio> в контейнер
+
+        // Находим элементы управления
+        const playPauseBtn = player.querySelector(".playPauseBtn"),
+            playIcon = playPauseBtn?.querySelector(".playBtn"),
+            pauseIcon = playPauseBtn?.querySelector(".pausBtn"),
+            prevBtn = player.querySelector(".prevBtn"),
+            nextBtn = player.querySelector(".nextBtn"),
+            progressBar = player.querySelector(".progressBar"),
+            progress = player.querySelector(".progress"),
+            volumeBtn = player.querySelector(".volumeBtn"),
+            vol1Icon = volumeBtn?.querySelector(".vol1"),
+            vol0Icon = volumeBtn?.querySelector(".vol0"),
+            volumeBar = player.querySelector(".volumeBar"),
+            volumeLevel = volumeBar?.querySelector(".volume");
+
+        if (!playPauseBtn || !progressBar || !volumeBar) {
+            console.error("Не удалось найти элементы управления плеером.");
+            return;
         }
- в контейнер
+
+        if (!playIcon || !pauseIcon) {
+            console.error("Не удалось найти иконки Play/Pause.");
+            return;
+        }
+
+        // Функция воспроизведения аудио
         function playSong() {
             player.classList.add("playing");
-            playIcon.style.display = "none";yPauseBtn"),
+            playIcon.style.display = "none";
             pauseIcon.style.display = "block";
-            audio.play();sBtn"),
+            audio.play();
         }
 
-        function pauseSong() {Bar"),
+        // Функция паузы
+        function pauseSong() {
             player.classList.remove("playing");
             playIcon.style.display = "block";
-            pauseIcon.style.display = "none";            vol1Icon = volumeBtn?.querySelector(".vol1"),
+            pauseIcon.style.display = "none";
             audio.pause();
         }
-evel = volumeBar?.querySelector(".volume");
+
+        // Обработчик на кнопку play/pause
         playPauseBtn.addEventListener("click", () => {
-            if (player.classList.contains("playing")) {        if (!playPauseBtn || !progressBar || !volumeBar) {
-                pauseSong();найти элементы управления плеером.");
+            if (player.classList.contains("playing")) {
+                pauseSong();
             } else {
                 playSong();
             }
-        });        if (!playIcon || !pauseIcon) {
-    });йти иконки Play/Pause.");
-});                progress.style.width = `${progressPercent}%`;                updateTimeDisplay(currentTimeValue, duration);            }, 50);        }        function stopProgressUpdate() {            clearInterval(progressInterval);        }        // Обновление отображения времени        function updateTimeDisplay(current, total) {            const currentTime = player.querySelector(".currentTime");            const totalTime = player.querySelector(".totalTime");            if (!currentTime || !totalTime) return;            currentTime.textContent = formatTime(current);            totalTime.textContent = formatTime(total);        }        // Форматирование времени в формате MM:SS        function formatTime(time) {            const minutes = Math.floor(time / 60);            const seconds = Math.floor(time % 60);            return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+        });
+
+        // Обработчик клика на регулятор громкости
+        volumeBar.addEventListener("click", (e) => {
+            const barWidth = volumeBar.offsetWidth;
+            const clickX = e.offsetX;
+            const volumePercent = Math.min(Math.max((clickX / barWidth), 0), 1);
+
+            audio.volume = volumePercent;
+            volumeLevel.style.width = `${volumePercent * 100}%`;
+
+            if (volumePercent === 0) {
+                vol1Icon.style.display = "none";
+                vol0Icon.style.display = "block";
+            } else {
+                vol1Icon.style.display = "block";
+                vol0Icon.style.display = "none";
+            }
+        });
+
+        // Обработчик клика на прогресс-бар
+        progressBar.addEventListener("click", (e) => {
+            const barWidth = progressBar.offsetWidth;
+            const clickX = e.offsetX;
+            const duration = audio.duration;
+
+            const newTime = (clickX / barWidth) * duration;
+            audio.currentTime = newTime;
+        });
+
+        // Обработчик на кнопку перемотки назад
+        prevBtn.addEventListener("click", () => {
+            audio.currentTime = Math.max(0, audio.currentTime - jumpTime);
+        });
+
+        // Обработчик на кнопку перемотки вперёд
+        nextBtn.addEventListener("click", () => {
+            audio.currentTime = Math.min(audio.duration, audio.currentTime + jumpTime);
+        });
+
+        // Обновление прогресс-бара
+        let progressInterval;
+
+        function startProgressUpdate() {
+            progressInterval = setInterval(() => {
+                const duration = audio.duration || 0;
+                const currentTimeValue = audio.currentTime || 0;
+                const progressPercent = (currentTimeValue / duration) * 100;
+                progress.style.width = `${progressPercent}%`;
+                updateTimeDisplay(currentTimeValue, duration);
+            }, 50);
+        }
+
+        function stopProgressUpdate() {
+            clearInterval(progressInterval);
+        }
+
+        // Обновление отображения времени
+        function updateTimeDisplay(current, total) {
+            const currentTime = player.querySelector(".currentTime");
+            const totalTime = player.querySelector(".totalTime");
+
+            if (!currentTime || !totalTime) return;
+
+            currentTime.textContent = formatTime(current);
+            totalTime.textContent = formatTime(total);
+        }
+
+        // Форматирование времени в формате MM:SS
+        function formatTime(time) {
+            const minutes = Math.floor(time / 60);
+            const seconds = Math.floor(time % 60);
+            return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
         }
 
         // Устанавливаем общую длительность трека при загрузке метаданных
