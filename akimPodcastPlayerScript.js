@@ -74,11 +74,6 @@ document.addEventListener("DOMContentLoaded", () => {
 		return;
 	}
 
-	if (!playIcon || !pauseIcon) {
-		console.error("Не удалось найти иконки Play/Pause.");
-		return;
-	}
-
 	// Флаг для переключения между прошедшим и оставшимся временем
 	let showRemainingTime = false;
 
@@ -315,11 +310,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!playPauseBtn || !progressBar || !volumeBar) {
             console.error("Не удалось найти элементы управления плеером.");
-            return;
-        }
-
-        if (!playIcon || !pauseIcon) {
-            console.error("Не удалось найти иконки Play/Pause.");
             return;
         }
 
