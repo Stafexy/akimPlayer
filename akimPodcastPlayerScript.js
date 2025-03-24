@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const codeVersion = "1.0.29"; // Обновлённая версия кода
+    const codeVersion = "1.0.30"; // Обновлённая версия кода
     console.log(`Podcast Player Script Version: ${codeVersion}`);
 
     const playerContainers = document.querySelectorAll(".akim-player-container");
@@ -47,8 +47,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     </svg>
                     <svg class="vol0 cBtn" style="display:none" viewBox="5 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path class="vol0ff" d="M27.7778 19.2857H10V40.7143H27.7778L50 55V5L27.7778 19.2857Z"/>
-                        <path class="volOff" d="M20 10L50 50" stroke-width="5"/>
-                        <path class="volOff" d="M50 10L20 50" stroke-width="5"/>
+                        <path class="volOff" d="M15 5L50 55" stroke-width="5"/>
+                        <path class="volOff" d="M50 5L15 55" stroke-width="5"/>
                     </svg>
                 </div>
                 <div class="volumeBar akimBtn">
@@ -70,6 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const audio = document.createElement("audio");
         audio.src = audioSrc;
         audio.className = "tracks";
+        audio.volume = 0.5; // Устанавливаем громкость на 50% изначально
         player.appendChild(audio);
 
         const audioPlayer = document.createElement("div");
@@ -96,6 +97,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         let showRemainingTime = false;
         let previousVolume = 0.5; // Сохраняем предыдущий уровень громкости
+
+        // Устанавливаем ширину полосы громкости на 50% изначально
+        volumeLevel.style.width = "50%";
 
         function playSong() {
             player.classList.add("playing");
