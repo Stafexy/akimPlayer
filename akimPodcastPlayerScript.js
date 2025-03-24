@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const codeVersion = "1.0.25"; // Обновлённая версия кода
+    const codeVersion = "1.0.26"; // Обновлённая версия кода
     console.log(`Podcast Player Script Version: ${codeVersion}`);
 
     const playerContainers = document.querySelectorAll(".akim-player-container");
@@ -89,10 +89,12 @@ document.addEventListener("DOMContentLoaded", () => {
             vol1Icon = player.querySelector(".vol1"),
             vol0Icon = player.querySelector(".vol0"),
             speedBtn = player.querySelector(".speedBtn"),
+            timeDisplay = player.querySelector(".timeDisplay"),
             currentTime = player.querySelector(".currentTime"),
             totalTime = player.querySelector(".totalTime");
 
         let showRemainingTime = false;
+        let previousVolume = 0.5; // Сохраняем предыдущий уровень громкости
 
         function playSong() {
             player.classList.add("playing");
@@ -171,8 +173,8 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        // Переключение режима отображения времени по клику
-        currentTime.addEventListener("click", () => {
+        // Переключение режима отображения времени по клику на timeDisplay
+        timeDisplay.addEventListener("click", () => {
             showRemainingTime = !showRemainingTime;
             updateTimeDisplay();
         });
@@ -187,13 +189,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Отключение/включение звука по клику
         vol1Icon.addEventListener("click", () => {
+            previousVolume = audio.volume; // Сохраняем текущий уровень громкости
             audio.muted = true;
+            audio.volume = 0;
+            volumeLevel.style.width = "0%";
             vol1Icon.style.display = "none";
             vol0Icon.style.display = "block";
         });
 
         vol0Icon.addEventListener("click", () => {
             audio.muted = false;
+            audio.volume = previousVolume; // Восстанавливаем предыдущий уровень громкости
+            volumeLevel.style.width = `${previousVolume * 100}%`;
             vol1Icon.style.display = "block";
             vol0Icon.style.display = "none";
         });
