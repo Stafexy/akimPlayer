@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const codeVersion = "1.0.28"; // Обновлённая версия кода
+    const codeVersion = "1.0.29"; // Обновлённая версия кода
     console.log(`Podcast Player Script Version: ${codeVersion}`);
 
     const playerContainers = document.querySelectorAll(".akim-player-container");
