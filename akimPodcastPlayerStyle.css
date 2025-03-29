@@ -47,7 +47,7 @@
 	height: 100%;
 }
 
-.akim {flex-wrap: nowrap;}
+@media (max-width: 640px) {.akim {flex-wrap: nowrap;}}
 
 /*	Настройки для иконок */
 .akim svg {width: var(--sizeIcon);height: var(--sizeIcon);}
@@ -98,7 +98,6 @@
 .akimBtn:hover {box-shadow: 0px 0px 10px var(--coHovCnt);}
 .speedBtn {pointer-events: none;}
 .cBtn {transition: var(--animaSet);}
-/*.cBtn:hover {padding: 2px;}*/
 .circle {
 	border-radius: 20px;
 	width: var(--sizeIcon);
