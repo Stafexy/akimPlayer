@@ -47,6 +47,8 @@
 	height: 100%;
 }
 
+.akim {flex-wrap: wrap;}
+
 /*	Настройки для иконок */
 .akim svg {width: var(--sizeIcon);height: var(--sizeIcon);}
 .akim svg path {fill: var(--colorCnt);}
