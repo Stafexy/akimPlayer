@@ -47,7 +47,7 @@
 	height: 100%;
 }
 
-@media (max-width: 640px) {.akim {flex-wrap: nowrap;}}
+@media (max-width: 640px) {.akim {flex-wrap: wrap;}}
 
 /*	Настройки для иконок */
 .akim svg {width: var(--sizeIcon);height: var(--sizeIcon);}
