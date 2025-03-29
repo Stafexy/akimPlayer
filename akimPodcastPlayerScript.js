@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const codeVersion = "1.0.34"; // Обновлённая версия кода: изменения в стилях и логике
+    const codeVersion = "1.0.35"; // Обновлённая версия кода: изменения в стилях и логике
     console.log(`Podcast Player Script Version: ${codeVersion}`);
 
     const playerContainers = document.querySelectorAll(".akim-player-container");
@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="progress-container myFlex">
                 <div class="progressBar akimBtn"><div class="progress" style="width: 0%;"></div></div>
                 <div class="timeDisplay myFlex akimBtn"><span class="currentTime">00:00</span>/<span class="totalTime">00:00</span></div>
-                <div class="speed-container myFlex akimBtn"><span class="speedBtn">1.00</span></div>
+                <div class="speed-container myFlex akimBtn"><span class="speedBtn">x1.00</span></div>
             </div>
             <div class="volume-container myFlex">
                 <div class="volumeBtn akimBtn circle">
@@ -68,6 +68,62 @@ document.addEventListener("DOMContentLoaded", () => {
         // Устанавливаем ширину полосы громкости на 50% изначально
         volumeLevel.style.width = "50%";
 
+        // Обработчики кликов
+        playPauseBtn.addEventListener("click", () => {if (player.classList.contains("playing")) {pauseSong();} else {playSong();}});
+
+        prevBtn.addEventListener("click", () => {audio.currentTime = Math.max(0, audio.currentTime - jumpTime);});
+
+        nextBtn.addEventListener("click", () => {audio.currentTime = Math.min(audio.duration, audio.currentTime + jumpTime);});
+
+        progressBar.addEventListener("click", (e) => {
+            const barWidth = progressBar.offsetWidth;
+            const clickX = e.offsetX;
+            const duration = audio.duration;
+            const newTime = (clickX / barWidth) * duration;
+            audio.currentTime = newTime;
+        });
+
+        volumeBar.addEventListener("click", (e) => {
+            const barWidth = volumeBar.offsetWidth;
+            const clickX = e.offsetX;
+            const volumePercent = Math.min(Math.max((clickX / barWidth), 0), 1);
+
+            audio.volume = volumePercent;
+            volumeLevel.style.width = `${volumePercent * 100}%`;
+
+            if (volumePercent === 0) {vol1Icon.style.display = "none";vol0Icon.style.display = "block";} else {vol1Icon.style.display = "block";vol0Icon.style.display = "none";}
+        });
+
+        timeDisplay.addEventListener("click", () => {
+            showRemainingTime = !showRemainingTime;
+            updateTimeDisplay();
+        });
+
+        speedContainer.addEventListener("click", () => {
+            const currentSpeed = parseFloat(speedBtn.textContent.slice(1)); // Убираем "x" перед числом
+            const newSpeed = currentSpeed >= 2 ? 1 : currentSpeed + 0.25;
+            speedBtn.textContent = `x${newSpeed.toFixed(2)}`;
+            audio.playbackRate = newSpeed;
+        });
+
+        vol1Icon.addEventListener("click", () => {
+            previousVolume = audio.volume; // Сохраняем текущий уровень громкости
+            audio.muted = true;
+            audio.volume = 0;
+            volumeLevel.style.width = "0%";
+            vol1Icon.style.display = "none";
+            vol0Icon.style.display = "block";
+        });
+
+        vol0Icon.addEventListener("click", () => {
+            audio.muted = false;
+            audio.volume = previousVolume; // Восстанавливаем предыдущий уровень громкости
+            volumeLevel.style.width = `${previousVolume * 100}%`;
+            vol1Icon.style.display = "block";
+            vol0Icon.style.display = "none";
+        });
+
+        // Остальные функции
         function playSong() {
             player.classList.add("playing");
             playIcon.style.display = "none";
@@ -98,63 +154,6 @@ document.addEventListener("DOMContentLoaded", () => {
             const seconds = Math.floor(time % 60);
             return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
         }
-
-        playPauseBtn.addEventListener("click", () => {if (player.classList.contains("playing")) {pauseSong();} else {playSong();}});
-
-        prevBtn.addEventListener("click", () => {audio.currentTime = Math.max(0, audio.currentTime - jumpTime);});
-
-        nextBtn.addEventListener("click", () => {audio.currentTime = Math.min(audio.duration, audio.currentTime + jumpTime);});
-
-        progressBar.addEventListener("click", (e) => {
-            const barWidth = progressBar.offsetWidth;
-            const clickX = e.offsetX;
-            const duration = audio.duration;
-            const newTime = (clickX / barWidth) * duration;
-            audio.currentTime = newTime;
-        });
-
-        volumeBar.addEventListener("click", (e) => {
-            const barWidth = volumeBar.offsetWidth;
-            const clickX = e.offsetX;
-            const volumePercent = Math.min(Math.max((clickX / barWidth), 0), 1);
-
-            audio.volume = volumePercent;
-            volumeLevel.style.width = `${volumePercent * 100}%`;
-
-            if (volumePercent === 0) {vol1Icon.style.display = "none";vol0Icon.style.display = "block";} else {vol1Icon.style.display = "block";vol0Icon.style.display = "none";}
-        });
-
-        // Переключение режима отображения времени по клику на timeDisplay
-        timeDisplay.addEventListener("click", () => {
-            showRemainingTime = !showRemainingTime;
-            updateTimeDisplay();
-        });
-
-        // Переключение скорости воспроизведения по клику на speed-container
-        speedContainer.addEventListener("click", () => {
-            const currentSpeed = parseFloat(speedBtn.textContent);
-            const newSpeed = currentSpeed >= 2 ? 1 : currentSpeed + 0.25;
-            speedBtn.textContent = newSpeed.toFixed(2);
-            audio.playbackRate = newSpeed;
-        });
-
-        // Отключение/включение звука по клику
-        vol1Icon.addEventListener("click", () => {
-            previousVolume = audio.volume; // Сохраняем текущий уровень громкости
-            audio.muted = true;
-            audio.volume = 0;
-            volumeLevel.style.width = "0%";
-            vol1Icon.style.display = "none";
-            vol0Icon.style.display = "block";
-        });
-
-        vol0Icon.addEventListener("click", () => {
-            audio.muted = false;
-            audio.volume = previousVolume; // Восстанавливаем предыдущий уровень громкости
-            volumeLevel.style.width = `${previousVolume * 100}%`;
-            vol1Icon.style.display = "block";
-            vol0Icon.style.display = "none";
-        });
 
         audio.addEventListener("timeupdate", updateTimeDisplay);
     });
